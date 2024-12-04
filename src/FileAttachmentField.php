@@ -1465,7 +1465,7 @@ class FileAttachmentField extends FileField
             }
 
             // Only include the setting in the JSON if it differs from the core default value
-            if(!isset($defaults[$js_name]) || ($defaults[$js_name] !== $value)) {
+            if(!isset($defaults->$js_name) || ($defaults->$js_name !== $value)) {
                 $data[$js_name] = $value;
             }
         }
@@ -1486,7 +1486,7 @@ class FileAttachmentField extends FileField
             }
         }
 
-        return Convert::array2json($data);
+        return json_encode($data);
     }
 
     public function performReadonlyTransformation()
