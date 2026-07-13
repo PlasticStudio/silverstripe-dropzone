@@ -21,7 +21,7 @@ use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\RelationList;
 use SilverStripe\ORM\UnsavedRelationList;
 use SilverStripe\Core\Validation\ValidationResult;
@@ -1286,7 +1286,7 @@ class FileAttachmentField extends FileField
         $name = $this->getName();
         $record = $this->getRecord();
 
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $ext = pathinfo($filename ?? '', PATHINFO_EXTENSION);
         $defaultClass = File::get_class_for_file_extension($ext);
 
         if(empty($name) || empty($record)) {
@@ -1399,7 +1399,7 @@ class FileAttachmentField extends FileField
             throw new Exception("FileAttachmentField::getDefaults() - There is no config json file at $file_path");
         }
 
-        return Convert::json2array(file_get_contents($file_path));
+        return json_decode($file_path, true);
     }
 
     /**
@@ -1474,7 +1474,7 @@ class FileAttachmentField extends FileField
             }
         }
 
-        return Convert::array2json($data);
+        return json_encode($data);
     }
 
     public function performReadonlyTransformation()
